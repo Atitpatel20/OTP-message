@@ -23,6 +23,7 @@ public class RegistrationController {
     @PostMapping("/register")
     public Map<String,String>registerUser(@RequestBody User user){
         User registerUser=userService.registerUser(user);
+        emailService.sendOtpEmail(user.getEmail());
         return null;
     }
 }
