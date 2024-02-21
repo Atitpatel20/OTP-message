@@ -14,7 +14,6 @@ import java.util.Map;
 public class RegistrationController {
     @Autowired
     private UserService userService;
-
     @Autowired
     private EmailService emailService;
 
