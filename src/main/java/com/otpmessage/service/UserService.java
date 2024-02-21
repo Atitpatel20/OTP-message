@@ -13,4 +13,14 @@ public class UserService {
     public User registerUser(User user) {
         return userRepository.save(user);
     }
+
+    public User getUserByEmail(String email) {
+        User user = userRepository.findByEmail(email);
+        return user;
+    }
+
+    public void verifyEmail(User user) {
+        user.setEmailVerified(true);
+        userRepository.save(user);
+    }
 }

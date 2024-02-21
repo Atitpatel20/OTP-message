@@ -2,12 +2,10 @@ package com.otpmessage.controller;
 
 import com.otpmessage.entity.User;
 import com.otpmessage.service.EmailService;
+import com.otpmessage.service.EmailVerificationService;
 import com.otpmessage.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -20,10 +18,19 @@ public class RegistrationController {
     @Autowired
     private EmailService emailService;
 
+    @Autowired
+    private EmailVerificationService emailVerificationService;
+
     @PostMapping("/register")
     public Map<String,String>registerUser(@RequestBody User user){
         User registerUser=userService.registerUser(user);
-        emailService.sendOtpEmail(user.getEmail());
-        return null;
+        Map<String, String> response = emailService.sendOtpEmail(user.getEmail());
+        return response;
+    }
+    //http://localhost:8080/api/verify-otp?email=&otp=
+    @PostMapping("/verify-otp")
+    public Map<String, String> verifyOtp(@RequestParam String email, @RequestParam String otp) {
+        Map<String, String> response = emailVerificationService.verifyOtp(email, otp);
+        return response;
     }
 }
